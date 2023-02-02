@@ -10,6 +10,7 @@ solc --bin --abi --overwrite -o build $SOLIDITY_DEPOSIT_CONTRACT_SOURCE
 rm -rf $ROOT
 export NODE_COUNT=$NODE_COUNT
 export VALIDATOR_COUNT=$VALIDATOR_COUNT
+export GETH_CMD=../go-ethereum/build/bin/geth
 cd ethereum-shadow; GENONLY=1 ROOT=../$ROOT ./run.sh; cd ..
 
 HTTP_PORT=3013
