@@ -17,8 +17,14 @@ const argv = yargs
         demandOption: true,
         requiresArg: true,
     })
-    .option('address-out', {
-        description: 'The file path to write the contract address',
+    .option('address-file', {
+        description: 'Contract address file',
+        type: 'string',
+        demandOption: true,
+        requiresArg: true,
+    })
+    .option('length', {
+        description: 'Length of the random bytes',
         type: 'string',
         demandOption: true,
         requiresArg: true,
@@ -31,26 +37,26 @@ const argv = yargs
     const accounts = await web3.eth.getAccounts();
 
     const abi = JSON.parse(fs.readFileSync(argv.buildDir + '/BytesContract.abi'));
-    const bin = fs.readFileSync(argv.buildDir + '/BytesContract.bin');
-    const undeployed = new web3.eth.Contract(abi);
+    const address = fs.readFileSync(argv.addressFile).toString();
+    const contract = new web3.eth.Contract(abi, address);
     console.log((new Date()).toLocaleTimeString());
 
-    const contract = await undeployed
-        .deploy({ data: '0x' + bin })
+    console.log('contract_address', address);
+    const data = web3.utils.randomHex(parseInt(argv.length));
+    const transaction = contract.methods.update(data);
+    const receipt = await transaction
         .send({
             from: accounts[0],
+            gas: 100000000,
             gasPrice: '147000000000',
         })
         .once('transactionHash', hash => {
             console.log('transaction', hash);
-        })
-        .once('receipt', receipt => {
-            console.log('block_number', receipt.blockNumber);
-            console.log('block_hash', receipt.blockHash);
         });
-
-    console.log('address', contract.options.address);
+    console.log('block_number', receipt.blockNumber);
+    console.log('block_hash', receipt.blockHash);
+    console.log('status', receipt.status);
     console.log((new Date()).toLocaleTimeString());
-    fs.writeFileSync(argv.addressOut, contract.options.address);
+
     process.exit();
 })();

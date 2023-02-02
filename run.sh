@@ -39,4 +39,19 @@ yq -i ".hosts.node1.processes += { \
 }" $SHADOW_CONFIG_FILE
 echo "Added contract deploy process in node1"
 
+# Update the bytes in the contract
+env="NODE_PATH=$(realpath ./node_modules)"
+args="$(realpath ./src/update.js) \
+--endpoint http://localhost:$HTTP_PORT \
+--build-dir $(realpath ./build) \
+--address-file $(realpath $ROOT/contract-address) \
+--length 2097152"
+yq -i ".hosts.node1.processes += { \
+    \"path\": \"node\", \
+    \"environment\": \"$env\", \
+    \"args\": \"$args\", \
+    \"start_time\": $UPDATE_STARTTIME \
+}" $SHADOW_CONFIG_FILE
+echo "Added bytes update process in node1"
+
 shadow -p $PARALLELISM -d $SHADOW_DIR $SHADOW_CONFIG_FILE --use-memory-manager false --progress true > $ROOT/shadow.log
