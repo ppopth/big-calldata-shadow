@@ -1,0 +1,12 @@
+{
+  "name": "big-calldata-shadow",
+  "bin": {
+    "deploy-contract": "./src/deploy-contract.js",
+    "update": "./src/update.js"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "web3": "^1.8.2",
+    "yargs": "^17.6.2"
+  }
+}

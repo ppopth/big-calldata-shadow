@@ -1,0 +1,3 @@
+[submodule "ethereum-shadow"]
+	path = ethereum-shadow
+	url = https://github.com/ppopth/ethereum-shadow.git
