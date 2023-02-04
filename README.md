@@ -11,6 +11,17 @@ running the simulation.
 Please follow https://github.com/ppopth/ethereum-shadow#install-dependencies to install the required dependencies. Then follow the following steps.
 
 ```bash
+# Install Solidity
+sudo add-apt-repository ppa:ethereum/ethereum
+sudo apt-get update
+sudo apt-get install solc
+
+# Install Go
+curl -OL https://go.dev/dl/go1.20.linux-amd64.tar.gz
+sudo tar -C /usr/local -xzf go1.20.linux-amd64.tar.gz
+# If /usr/local/go/bin is not already in your PATH, run the following command
+echo 'export PATH="${PATH}:/usr/local/go/bin"' >> ~/.bashrc && source ~/.bashrc
+
 git clone https://github.com/ppopth/big-calldata-shadow.git
 cd big-calldata-shadow
 git submodule update --init --depth 1
