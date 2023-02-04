@@ -57,7 +57,7 @@ for node in $(seq 1 $UPDATE_NODE_COUNT); do
 --endpoint http://localhost:$HTTP_PORT \
 --build-dir $(realpath ./build) \
 --address-file $(realpath $ROOT/contract-address) \
---length 2097152"
+--length $LENGTH"
     yq -i ".hosts.node$node.processes += { \
         \"path\": \"node\", \
         \"environment\": \"$env\", \
