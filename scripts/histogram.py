@@ -26,9 +26,12 @@ else:
     ax.set_xlabel('time in second, 50ms/bin')
 ax.set_ylabel('number of nodes')
 if high > 8:
-    ax.hist(times, np.arange(0, 90, 1))
+    ax.hist(times, np.arange(0, 90, 1), histtype='step')
 elif high > 4:
-    ax.hist(times, np.arange(0, 8, 0.05))
+    ax.hist(times, np.arange(0, 8, 0.05), histtype='step')
 else:
-    ax.hist(times, np.arange(0, 4, 0.05))
+    ax.hist(times, np.arange(0, 4, 0.05), histtype='step')
+
+ax.axvline(np.median(times), color='k', label="median", linestyle='dashed', linewidth=1)
+ax.legend()
 fig.savefig(f'histogram.png')
